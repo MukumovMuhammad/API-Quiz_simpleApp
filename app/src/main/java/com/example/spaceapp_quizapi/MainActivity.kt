@@ -23,11 +23,17 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
 class MainActivity : AppCompatActivity() {
+    companion object{
+        const val TAG_API = "APIs"
+    }
     lateinit var client: HttpClient
+    private var apod_data : Apod_data = Apod_data("","","","")
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
 
         super.onCreate(savedInstanceState)
        enableEdgeToEdge()
@@ -45,6 +51,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        GlobalScope.launch {
+            apod_data = getApod()
+            Log.i(TAG_API, "Response we got -> " + apod_data.title)
+        }
 
 
 
@@ -68,10 +78,9 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun replace_fragemnt(frag: Fragment){
-        GlobalScope.launch {
-            var apod_data = getApod().title
-            Log.i("API", "Yahoo Gor data -> $apod_data")
-        }
+        var bundle = Bundle()
+        bundle.putParcelable("apod_data", apod_data)
+        frag.arguments = bundle
 
         val FragManager = supportFragmentManager;
         val FragTransition = FragManager.beginTransaction()
@@ -82,11 +91,17 @@ class MainActivity : AppCompatActivity() {
 
     suspend fun getApod(): Apod_data {
 
-        var  response = client.get("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY")
+        try {
+            var response = client.get("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY")
+            val json = Json { ignoreUnknownKeys = true }
+
+            return json.decodeFromString<Apod_data>(response.bodyAsText())
+        }
+        catch (e : Exception){
+            return Apod_data("Couldn't Recieve Data", "No internet", "No internet","No internet")
+        }
 
 
-        val json = Json { ignoreUnknownKeys = true }
 
-        return json.decodeFromString<Apod_data>(response.bodyAsText())
     }
 }
