@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.spaceapp_quizapi.model.Apod_data
 
 class NasaNews_Adapter(val apodData: Apod_data):RecyclerView.Adapter<NasaNews_Adapter.viewHolder>() {
@@ -18,9 +19,18 @@ class NasaNews_Adapter(val apodData: Apod_data):RecyclerView.Adapter<NasaNews_Ad
     override fun getItemCount(): Int = 1
 
     override fun onBindViewHolder(holder: viewHolder, position: Int) {
+        Glide.with(holder.img.context)
+            .load(apodData.url)
+            .placeholder(R.drawable.ic_launcher_background)
+            .error(R.drawable.ic_launcher_background)
+            .into(holder.img)
+
+
         holder.title.text = apodData.title
         holder.expl.text = apodData.explanation
+
     }
+
 
     inner class viewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val title = itemView.findViewById<TextView>(R.id.t_title)
