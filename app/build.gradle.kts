@@ -77,4 +77,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.15.1")
   //  annotationProcessor("com.github.bumptech.glide:compiler:4.15.1") // For custom models
 
+    // Gemeni
+    implementation("com.google.ai.client.generativeai:generativeai:0.7.0")
+
 }

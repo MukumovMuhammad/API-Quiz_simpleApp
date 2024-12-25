@@ -1,26 +1,27 @@
 package com.example.spaceapp_quizapi
 
+
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.spaceapp_quizapi.model.Apod_data
 
+
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
 import io.ktor.client.engine.android.Android
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.client.statement.bodyAsText
-import io.ktor.http.ContentType.Application.Json
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
+
+
+
 
 class MainActivity : AppCompatActivity() {
     companion object{
@@ -36,13 +37,14 @@ class MainActivity : AppCompatActivity() {
 
 
         super.onCreate(savedInstanceState)
-       enableEdgeToEdge()
+       //enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
 
         
 
@@ -55,6 +57,7 @@ class MainActivity : AppCompatActivity() {
         GlobalScope.launch {
             apod_data = getApod()
             Log.i(TAG_API, "Response we got -> " + apod_data.title)
+
             replace_fragemnt(NasaNews())
         }
 
@@ -97,6 +100,7 @@ class MainActivity : AppCompatActivity() {
             var response = client.get("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY")
             val json = Json { ignoreUnknownKeys = true }
 
+            Log.i(TAG_API, "response from get : " + response.bodyAsText())
             return json.decodeFromString<Apod_data>(response.bodyAsText())
         }
         catch (e : Exception){
@@ -106,4 +110,7 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+
+
 }

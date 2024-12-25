@@ -4,16 +4,16 @@
 
     <item
         android:id="@+id/navbtn_home"
-        android:title="Home"
+        android:title=""
         android:icon="@drawable/ic_home"
         app:showAsAction="never"
-        android:iconTint="@color/my_light_primary" />
+        android:iconTint="@color/my_primary" />
 
     <item
         android:id="@+id/navbtn_quiz"
         android:icon="@drawable/ic_quiz"
-        android:iconTint="@color/cardview_light_background"
-        android:title="Quiz"
+        android:iconTint="@color/my_second_primary"
+        android:title=""
         android:visible="true"
         app:showAsAction="never" />
 </menu>

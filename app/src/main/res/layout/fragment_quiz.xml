@@ -4,12 +4,108 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Quiz"
-    android:background="@color/my_light_primary">
+    android:background="@color/dark_background">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- Main Container -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
+        <!-- Quiz Question -->
+        <TextView
+            android:id="@+id/Question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Quiz Question 1"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Answer Options Container -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <!-- Option A and B -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="16dp"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/btn_A"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="@color/button_background"
+                    android:text="Option A"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="12dp"
+                    android:elevation="4dp"
+                     />
+
+                <Button
+                    android:id="@+id/btn_B"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:backgroundTint="@color/button_background"
+                    android:text="Option B"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="12dp"
+                    android:elevation="4dp"
+                     />
+            </LinearLayout>
+
+            <!-- Option C and D -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/btn_C"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="@color/button_background"
+                    android:text="Option C"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="12dp"
+                    android:elevation="4dp"
+                    />
+
+                <Button
+                    android:id="@+id/btn_D"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:backgroundTint="@color/button_background"
+                    android:text="Option D"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="12dp"
+                    android:elevation="4dp"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </FrameLayout>
