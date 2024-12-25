@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="Home"
-        android:icon="@drawable/ic_home"
+    <item
         android:id="@+id/navbtn_home"
-        />
-    <item android:title="Quiz"
-        android:icon="@drawable/ic_quiz"
-        android:id="@+id/navbtn_quiz"
+        android:title="Home"
+        android:icon="@drawable/ic_home"
+        app:showAsAction="never"
+        android:iconTint="@color/my_light_primary" />
 
-        />
+    <item
+        android:id="@+id/navbtn_quiz"
+        android:icon="@drawable/ic_quiz"
+        android:iconTint="@color/cardview_light_background"
+        android:title="Quiz"
+        android:visible="true"
+        app:showAsAction="never" />
 </menu>

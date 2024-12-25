@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        
 
         client = HttpClient(Android){
             install(io.ktor.client.plugins.contentnegotiation.ContentNegotiation) {
@@ -54,12 +55,13 @@ class MainActivity : AppCompatActivity() {
         GlobalScope.launch {
             apod_data = getApod()
             Log.i(TAG_API, "Response we got -> " + apod_data.title)
+            replace_fragemnt(NasaNews())
         }
 
 
 
 
-        replace_fragemnt(NasaNews())
+
         val navbar = findViewById<BottomNavigationView>(R.id.navBar)
 
         navbar.setOnItemSelectedListener {
