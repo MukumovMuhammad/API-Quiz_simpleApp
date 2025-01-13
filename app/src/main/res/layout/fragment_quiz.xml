@@ -1,133 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Quiz"
-    android:background="@color/dark_background">
+    android:background="@color/dark_background"
+    tools:context=".Quiz">
 
-    <!-- Main Container -->
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!-- Question Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/question_card"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_margin="16dp"
+        app:cardBackgroundColor="@color/card_background"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/Question"
+            android:id="@+id/question_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
             android:gravity="center"
+            android:padding="16dp"
             android:text="-"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
+    </androidx.cardview.widget.CardView>
 
-        <!-- Option A and B -->
+    <!-- Options -->
+    <LinearLayout
+        android:id="@+id/options_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginHorizontal="16dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/question_card">
+
+        <!-- Option Rows -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:gravity="center"
             android:orientation="horizontal"
             android:weightSum="2">
 
             <Button
                 android:id="@+id/btn_A"
-                android:enabled="false"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="48dp"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/button_background"
+                android:background="@drawable/button_background"
                 android:elevation="4dp"
-                android:padding="12dp"
                 android:text="-"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
             <Button
                 android:id="@+id/btn_B"
-                android:enabled="false"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="48dp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/button_background"
+                android:background="@drawable/button_background"
                 android:elevation="4dp"
-                android:padding="12dp"
                 android:text="-"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <!-- Option C and D -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:orientation="horizontal"
             android:weightSum="2">
 
             <Button
                 android:id="@+id/btn_C"
-                android:enabled="false"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="48dp"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/button_background"
+                android:background="@drawable/button_background"
                 android:elevation="4dp"
-                android:padding="12dp"
                 android:text="-"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
             <Button
                 android:id="@+id/btn_D"
-                android:enabled="false"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="48dp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/button_background"
+                android:background="@drawable/button_background"
                 android:elevation="4dp"
-                android:padding="12dp"
                 android:text="-"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_gravity="center_horizontal|bottom"
-       android:orientation="vertical">
 
-       <TextView
-           android:id="@+id/Info_text"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginBottom="24dp"
-           android:gravity="center"
-           android:padding="5dp"
-           android:text="No quiz? Click on generate to have one"
-           android:textAlignment="center"
-           android:textColor="@color/white"
-           android:textSize="20sp"
-           android:textStyle="bold" />
+    <!-- Bottom Controls -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-       <Button
-           android:id="@+id/btn_NewQuiz"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:backgroundTint="@color/button_background"
-           android:layout_gravity="center_horizontal"
-           android:layout_marginBottom="25sp"
-           android:text="Generate a quiz"
-           android:textSize="20sp"
-           android:textColor="@color/white" />
-   </LinearLayout>
-</FrameLayout>
+        <TextView
+            android:id="@+id/info_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:gravity="center"
+            android:text="No quiz? Click on generate to have one"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_new_quiz"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:text="Generate a quiz"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lang_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="Language:"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <Spinner
+                    android:id="@+id/lang_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:background="@drawable/spinner_background" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Language Selection -->
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

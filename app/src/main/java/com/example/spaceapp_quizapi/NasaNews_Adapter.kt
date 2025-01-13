@@ -21,8 +21,8 @@ class NasaNews_Adapter(val apodData: Apod_data):RecyclerView.Adapter<NasaNews_Ad
     override fun onBindViewHolder(holder: viewHolder, position: Int) {
         Glide.with(holder.img.context)
             .load(apodData.url)
-            .placeholder(R.drawable.ic_launcher_background)
-            .error(R.drawable.ic_launcher_background)
+            .placeholder(R.drawable.ic_no_img)
+            .error(R.drawable.ic_no_img)
             .into(holder.img)
 
 

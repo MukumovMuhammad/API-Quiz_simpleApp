@@ -1,45 +1,30 @@
 package com.example.spaceapp_quizapi
 
 import GeminiData
-import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
-import android.provider.CalendarContract.Colors
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
-import com.example.spaceapp_quizapi.model.Apod_data
+import androidx.lifecycle.lifecycleScope
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.GenerateContentResponse
-import io.ktor.client.request.get
-import io.ktor.client.statement.bodyAsText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.selects.select
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [Quiz.newInstance] factory method to
- * create an instance of this fragment.
- */
 class Quiz : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
     lateinit var  Gemini_Data: GeminiData;
     lateinit var QuizQuestion : TextView;
     lateinit var info_text : TextView;
@@ -50,26 +35,18 @@ class Quiz : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-
-
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_quiz, container, false)
 
-        val QuizQuestion = requireView()!!.findViewById<TextView>(R.id.Question);
+        val QuizQuestion = requireView()!!.findViewById<TextView>(R.id.question_text);
 
         QuizQuestion.text = "This Text is just created!";
-
 
 
 
@@ -78,26 +55,48 @@ class Quiz : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        QuizQuestion = view.findViewById<TextView>(R.id.Question);
+        QuizQuestion = view.findViewById<TextView>(R.id.question_text);
         btn_A = view.findViewById<Button>(R.id.btn_A);
         btn_B = view.findViewById<Button>(R.id.btn_B);
         btn_C = view.findViewById<Button>(R.id.btn_C);
         btn_D = view.findViewById<Button>(R.id.btn_D);
 
 
-        var btn_NewQuiz = view.findViewById<Button>(R.id.btn_NewQuiz)
-        info_text = view.findViewById<Button>(R.id.Info_text)
+        var btn_NewQuiz = view.findViewById<Button>(R.id.btn_new_quiz)
+        info_text = view.findViewById<Button>(R.id.info_text)
+        reset_btn_colors();
+        val spinner: Spinner  = view.findViewById(R.id.lang_spinner)
+        var  selectedLang = "English";
+
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.languages,
+            android.R.layout.simple_spinner_item,
+
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
 
 
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                selectedLang = resources.getStringArray(R.array.languages)[p2]
+                Toast.makeText(requireContext(), selectedLang, Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+        }
 
         btn_NewQuiz.setOnClickListener{
             reset_btn_colors();
             QuizQuestion.text = "-";
             info_text.text = "Loading...";
             show_options(false)
-
             GlobalScope.launch {
-                Gemini_Data = AskGemeni();
+                Gemini_Data = AskGemeni(selectedLang);
                 withContext(Dispatchers.Main){
                     show_options(true)
 
@@ -196,9 +195,9 @@ class Quiz : Fragment() {
 
     }
 
-    suspend fun AskGemeni(): GeminiData {
+    suspend fun AskGemeni(selectedLang: String): GeminiData {
         delay(1000);
-        val generativeModel = GenerativeModel(modelName = "gemini-1.5-flash", apiKey = "AIzaSyDAmq-30rzxXD6n1eoQAGd9OiLVrdyW8rQ")
+        val generativeModel = GenerativeModel(modelName = "gemini-1.5-flash", apiKey = "AIzaSyAkNt2DITi1T3Ofurp7yWNjwFVF1I4k58o")
 
 
         val prompt = """
@@ -220,11 +219,11 @@ Generate a JSON object where:
 2. The generated content is unique, diverse, and not repetitive across different prompts.
 3. Avoid repeating concepts like "the 3rd planet from the sun" or "largest moon" multiple times. Explore topics such as galaxies, black holes, space missions, stars, and cosmology.
 4. Use creativity to make the questions interesting and educational.
-
+5. The questions and answers in ${selectedLang} but keys must stay in english
 Do NOT include any additional text, headers, or formatting outside the JSON structure.
 """.trimIndent()
 
-
+        Log.i("Gemini", "Making request to Gemini...")
 
         return try {
             val response: GenerateContentResponse = generativeModel.generateContent(prompt)
@@ -236,7 +235,7 @@ Do NOT include any additional text, headers, or formatting outside the JSON stru
 
             json.decodeFromString<GeminiData>(jsonString.toString())
         } catch (e: Exception) {
-            Log.e("Gemini", "Error parsing JSON: ${e.message}")
+            Log.e("Gemini", "Error:  ${e.message}")
             GeminiData(" Error! No internet ", "A", "B","C", "D", 0, "");
         }
 

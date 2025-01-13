@@ -7,6 +7,7 @@
     <color name="my_primary">#1E1E2C</color>
     <color name="my_second_primary">#36363E</color>
     <color name="dark_background">#121212</color>
-    <color name="button_background">#1F1F1F</color>
+    <color name="button_background">#BB86FC</color>
+    <color name="card_background">#1E1E1E</color>
 
 </resources>
