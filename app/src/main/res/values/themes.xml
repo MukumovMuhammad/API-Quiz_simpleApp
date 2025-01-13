@@ -2,7 +2,8 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.SpaceApp_QuizAPI" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-         <item name="colorPrimary">@color/my_primary</item>
+        <item name="colorPrimary">@color/my_primary</item> <!-- Set a different primary color -->
+        <item name="colorButtonNormal">@color/button_background</item> <!-- Set button background separately -->
     </style>
 
     <style name="Theme.SpaceApp_QuizAPI" parent="Base.Theme.SpaceApp_QuizAPI" />

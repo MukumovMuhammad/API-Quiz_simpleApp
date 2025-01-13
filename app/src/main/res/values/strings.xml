@@ -5,9 +5,10 @@
 
     <string-array name="languages">
         <item>English</item>
+        <item>Korean</item>
+        <item>Russian</item>
+        <item>German</item>
         <item>Spanish</item>
         <item>French</item>
-        <item>German</item>
-        <item>Russian</item>
     </string-array>
 </resources>

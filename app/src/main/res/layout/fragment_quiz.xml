@@ -53,10 +53,10 @@
             android:orientation="horizontal"
             android:weightSum="2">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_A"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_background"
@@ -65,10 +65,10 @@
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_B"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_background"
@@ -76,7 +76,8 @@
                 android:text="-"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
-        </LinearLayout>
+
+            </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -84,10 +85,10 @@
             android:orientation="horizontal"
             android:weightSum="2">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_C"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_background"
@@ -96,10 +97,10 @@
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_D"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_background"
@@ -138,12 +139,12 @@
 
             <Button
                 android:id="@+id/btn_new_quiz"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="16dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_background"
-                android:text="Generate a quiz"
+                android:text="Generate"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
@@ -168,7 +169,8 @@
                     android:id="@+id/lang_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
-                    android:background="@drawable/spinner_background" />
+                    android:background="@drawable/spinner_background"
+                    android:spinnerMode="dropdown" />
             </LinearLayout>
         </LinearLayout>
 

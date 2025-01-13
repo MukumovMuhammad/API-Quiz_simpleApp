@@ -32,6 +32,7 @@ class Quiz : Fragment() {
     lateinit var btn_B: Button;
     lateinit var btn_C: Button;
     lateinit var btn_D: Button;
+    var sl_lang : Int = 0;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,16 +56,17 @@ class Quiz : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        QuizQuestion = view.findViewById<TextView>(R.id.question_text);
-        btn_A = view.findViewById<Button>(R.id.btn_A);
-        btn_B = view.findViewById<Button>(R.id.btn_B);
-        btn_C = view.findViewById<Button>(R.id.btn_C);
-        btn_D = view.findViewById<Button>(R.id.btn_D);
-
+        QuizQuestion = view.findViewById(R.id.question_text);
+        btn_A = view.findViewById(R.id.btn_A);
+        btn_B = view.findViewById(R.id.btn_B);
+        btn_C = view.findViewById(R.id.btn_C);
+        btn_D = view.findViewById(R.id.btn_D);
 
         var btn_NewQuiz = view.findViewById<Button>(R.id.btn_new_quiz)
         info_text = view.findViewById<Button>(R.id.info_text)
+
         reset_btn_colors();
+
         val spinner: Spinner  = view.findViewById(R.id.lang_spinner)
         var  selectedLang = "English";
 
@@ -74,13 +76,19 @@ class Quiz : Fragment() {
             android.R.layout.simple_spinner_item,
 
         ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             spinner.adapter = adapter
         }
 
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                (p0?.getChildAt(0) as? TextView)?.setTextColor( // Corrected line
+                    ContextCompat.getColor(requireContext(), R.color.white)
+                )
+
+                sl_lang = p2;
+
                 selectedLang = resources.getStringArray(R.array.languages)[p2]
                 Toast.makeText(requireContext(), selectedLang, Toast.LENGTH_SHORT).show()
             }
@@ -145,31 +153,31 @@ class Quiz : Fragment() {
     }
 
     private fun wrong_asnwer(selected: Int) {
-        val wrong_answer = ContextCompat.getColor(requireContext(), R.color.wrong_answer)
+        val WrongAnswer = ContextCompat.getDrawable(requireContext(), R.drawable.wrong_answer_bg)
         when(selected){
-            0 -> btn_A.setBackgroundColor(wrong_answer)
-            1 -> btn_B.setBackgroundColor(wrong_answer)
-            2 -> btn_C.setBackgroundColor(wrong_answer)
-            3 -> btn_D.setBackgroundColor(wrong_answer)
+            0 -> btn_A.background = WrongAnswer;
+            1 -> btn_B.background = WrongAnswer;
+            2 -> btn_C.background = WrongAnswer;
+            3 -> btn_D.background = WrongAnswer;
         }
     }
 
     private fun correct_asnwer(selected: Int) {
-        val correct_answer = ContextCompat.getColor(requireContext(), R.color.correct_answer)
+        val CorrectAnswer = ContextCompat.getDrawable(requireContext(), R.drawable.correct_answer)
         when(selected){
-            0 -> btn_A.setBackgroundColor(correct_answer)
-            1 -> btn_B.setBackgroundColor(correct_answer)
-            2 -> btn_C.setBackgroundColor(correct_answer)
-            3 -> btn_D.setBackgroundColor(correct_answer)
+            0 -> btn_A.background = CorrectAnswer;
+            1 -> btn_B.background = CorrectAnswer;
+            2 -> btn_C.background = CorrectAnswer;
+            3 -> btn_D.background = CorrectAnswer;
         }
     }
 
     private fun reset_btn_colors(){
-        val standart_color = ContextCompat.getColor(requireContext(), R.color.button_background)
-        btn_A.setBackgroundColor(standart_color)
-        btn_B.setBackgroundColor(standart_color)
-        btn_C.setBackgroundColor(standart_color)
-        btn_D.setBackgroundColor(standart_color)
+        val buttonBackgroundDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.button_background)
+        btn_A.background = buttonBackgroundDrawable;
+        btn_B.background = buttonBackgroundDrawable;
+        btn_C.background = buttonBackgroundDrawable;
+        btn_D.background = buttonBackgroundDrawable;
 
     }
     private fun EnableOptions(enable : Boolean){
@@ -201,7 +209,7 @@ class Quiz : Fragment() {
 
 
         val prompt = """
-           Respond ONLY with a JSON object that starts and ends with "{}". 
+           Respond ONLY with a JSON object that starts and ends with "{}" no ``` in response!. 
 
 Example:
 {
@@ -236,7 +244,16 @@ Do NOT include any additional text, headers, or formatting outside the JSON stru
             json.decodeFromString<GeminiData>(jsonString.toString())
         } catch (e: Exception) {
             Log.e("Gemini", "Error:  ${e.message}")
-            GeminiData(" Error! No internet ", "A", "B","C", "D", 0, "");
+
+            when(sl_lang){
+                0 -> GeminiData("Something went wrong, try again", "A", "B","C", "D", 0, "");
+                1 -> GeminiData("문제가 발생했습니다, 다시 시도해주세요", "A", "B","C", "D", 0, "");
+                2 -> GeminiData("Что-то пошло не так, попробуйте снова", "A", "B","C", "D", 0, "");
+                3 -> GeminiData("Ein Fehler ist aufgetreten, versuchen Sie es erneut", "A", "B","C", "D", 0, "");
+                4 -> GeminiData("Ha ocurrido un error, inténtalo de nuevo", "A", "B","C", "D", 0, "");
+                else -> GeminiData("Something went wrong, try again", "A", "B","C", "D", 0, "");
+            }
+
         }
 
     }
